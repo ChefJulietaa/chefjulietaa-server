@@ -20,6 +20,7 @@ router.post("/", isAuthenticated, (req, res) => {
 router.get("/", (req, res) => {
   Recipe.find()
     .populate("ingredients.ingredient")
+    .populate("author")
     .then((allRecipes) => res.json(allRecipes))
     .catch((err) => {
       console.log("error getting recipes from DB", err);

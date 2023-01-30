@@ -9,7 +9,7 @@ const recipeSchema = new Schema({
   title: String,
   imageUrl: String,
   description: String,
-  author: String,
+  author: { type: Schema.Types.ObjectId, ref: "User" },
   totalTime: Number,
   servings: Number,
 },
