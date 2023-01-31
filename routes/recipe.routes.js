@@ -37,6 +37,7 @@ router.get("/:recipeId", (req, res, next) => {
   }
   Recipe.findById(recipeId)
     .populate("ingredients.ingredient")
+    .populate("author")
     .then((recipe) => res.json(recipe))
     .catch((err) => {
       console.log("error getting recipe details from DB", err);
