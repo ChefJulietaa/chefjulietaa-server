@@ -2,6 +2,7 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
 const Recipe = require("../models/Recipe.model");
+const fileUploader = require("../config/cloudinary.config");
 
 // const Ingredient = require('../models/Ingredient.model');
 
@@ -14,6 +15,21 @@ router.post("/", isAuthenticated, (req, res) => {
       console.log("error creating new recipe", err);
       res.status(500).json(err);
     });
+});
+
+// POST "/api/upload" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
+router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
+  // console.log("file is: ", req.file)
+ 
+  if (!req.file) {
+    next(new Error("No file uploaded!"));
+    return;
+  }
+  
+  // Get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+  
+  res.json({ fileUrl: req.file.path });
 });
 
 // GET /api/recipes -  Retrieves all of the recipes Read
